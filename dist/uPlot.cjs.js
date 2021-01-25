@@ -872,7 +872,7 @@ const [ timeIncrsMs, _timeAxisStampsMs, timeAxisSplitsMs ] =  genTimeStuffs(1);
 const [ timeIncrsS,  _timeAxisStampsS,  timeAxisSplitsS  ] =  genTimeStuffs(1e-3);
 
 // base 2
-genIncrs(2, -53, 53, [1]);
+const binIncrs = genIncrs(2, -53, 53, [1]);
 
 /*
 console.log({
@@ -2555,6 +2555,7 @@ function uPlot(opts, data, then) {
 			s.stroke = fnOrSelf(s.stroke || null);
 			s.fill   = fnOrSelf(s.fill || null);
 			s._stroke = s._fill = s._paths = null;
+			s._focus = true;
 
 			let _ptDia = ptDia(s.width, 1);
 			let points = s.points = assign({}, {
@@ -3649,7 +3650,9 @@ function uPlot(opts, data, then) {
 		//	log("setFocus()", arguments);
 
 			series.forEach((s, i2) => {
-				_setAlpha(i2, i == null || i2 == 0 || i2 == i ? 1 : focus.alpha);
+				let isFocused = i == null || i2 == 0 || i2 == i;
+				s._focus = isFocused;
+				_setAlpha(i2, isFocused ? 1 : focus.alpha);
 			});
 
 			focusedSeries = i;
@@ -4299,6 +4302,7 @@ function uPlot(opts, data, then) {
 	const syncKey =  syncOpts.key;
 
 	const sync =  (syncKey != null ? (syncs[syncKey] = syncs[syncKey] || _sync()) : _sync());
+	self.sync = sync;
 
 	 sync.sub(self);
 
