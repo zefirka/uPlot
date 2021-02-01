@@ -4354,6 +4354,7 @@ uPlot.fmtNum = fmtNum;
 uPlot.rangeNum = rangeNum;
 uPlot.rangeLog = rangeLog;
 uPlot.orient   = orient;
+uPlot.syncs    = syncs;
 
 {
 	uPlot.join = join;
